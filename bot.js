@@ -31,7 +31,7 @@ bot.command("start", async (ctx) => {
               }
             });
           });
-        await ctx.replyWithHTML(`👋 Hi, ${ctx.message.from.first_name}!\n🔥 Send me tiktok video link!\n🎞 Bot will send you video!`)
+        await ctx.replyWithHTML(`👋 Hi, ${ctx.message.from.first_name}!\n🔥 Send me Instagram video link!\n🎞 Bot will send you video!`)
     } catch (error) {
         console.log("Error: ",error)
     }
@@ -42,25 +42,28 @@ bot.on("message", async (ctx) => {
         await ctx.replyWithChatAction("upload_video")
         const link = ctx.update.message.text
         let llink = link.split('')
-        if (llink[0] === "h", llink[1] === "t", llink[2] === "t", llink[3] === "p", llink[4] === "s",llink[5] === ":", llink[6] === "/", llink[7] === "/", llink[8] === "v", llink[9] === "m",llink[10] === ".", llink[11] === "t", llink[12] === "i", llink[13] === "k", llink[14] === "t") {
+        // console.log(link)
+        // console.log(llink)
+        if (llink[0] === "h", llink[1] === "t", llink[2] === "t", llink[3] === "p", llink[4] === "s",llink[5] === ":", llink[6] === "/", llink[7] === "/", llink[8] === "w", llink[9] === "w",llink[10] === "w", llink[11] === ".", llink[12] === "i", llink[13] === "n", llink[14] === "s", llink[15] === "t",llink[16] === "a", llink[17] === "g", llink[18] === "r", llink[19] === "a", llink[20] === "m") {
             const options = {
-                method: 'GET',
-                url: 'https://tiktok-downloader-download-videos-without-watermark1.p.rapidapi.com/media-info/',
-                qs: {link: link},
-                headers: {
-                  'X-RapidAPI-Key': '0390edd038msh43715b569645b4cp1bb1a7jsn5093b1f861d3',
-                  'X-RapidAPI-Host': 'tiktok-downloader-download-videos-without-watermark1.p.rapidapi.com',
-                  useQueryString: true
-                }
+            method: 'GET',
+            url: 'https://instagram-downloader-download-instagram-videos-stories.p.rapidapi.com/index',
+            qs: {url: link},
+            headers: {
+                'X-RapidAPI-Key': '0390edd038msh43715b569645b4cp1bb1a7jsn5093b1f861d3',
+                'X-RapidAPI-Host': 'instagram-downloader-download-instagram-videos-stories.p.rapidapi.com',
+                useQueryString: true
+            }
             };
-              
+
             request(options, async (error, response, body) => {
                 if (error) throw new Error(error);
+
+                // console.log(body);
                 const data = JSON.parse(body)
-                const video = data.result.video.url_list[0]
-                const music = data.result.music.url_list[0]
+                // console.log(data)
+                const video = data.media
                 await bot.telegram.sendVideo(ctx.chat.id, `${video}`)
-                await bot.telegram.sendAudio(ctx.chat.id, `${music}`)
             });
         } else if (link === "/stats") {
             try {
